@@ -36,7 +36,34 @@
   .edu-item { margin-bottom: 14px; }
   .edu-degree { font-size: 13px; font-weight: 500; color: #111827; }
   .edu-school { font-size: 12px; color: #6b7280; margin-top: 1px; }
-  @media print { body { background: white; } .page { box-shadow: none; } }
+  @media print {
+    body { background: white; }
+    .page { box-shadow: none; margin: 0; max-width: 100%; }
+    .download-btn { display: none !important; }
+    header::after { -webkit-print-color-adjust: exact; print-color-adjust: exact; background: #f59e0b !important; }
+  }
+
+  .download-btn {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    background: #f59e0b;
+    color: #111827;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 12px 22px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    letter-spacing: 0.3px;
+    z-index: 1000;
+    transition: background 0.15s, transform 0.1s;
+  }
+
+  .download-btn:hover { background: #d97706; transform: translateY(-1px); }
+  .download-btn:active { transform: translateY(0); }
   @media (max-width: 640px) { header { padding: 28px 24px 24px; } .body { padding: 28px 24px 36px; } .name { font-size: 32px; } .header-inner { flex-direction: column; align-items: flex-start; } .contact { text-align: left; } .two-col { grid-template-columns: 1fr; gap: 0; } }
 </style>
 </head>
@@ -201,5 +228,23 @@
     </div>
   </div>
 </div>
+
+<button class="download-btn" onclick="downloadPDF()">Download PDF</button>
+
+<script>
+  function downloadPDF() {
+    const btn = document.querySelector('.download-btn');
+    btn.style.display = 'none';
+
+    // Brief pause to ensure button is hidden before print dialog opens
+    setTimeout(() => {
+      window.print();
+      setTimeout(() => {
+        btn.style.display = 'block';
+      }, 1000);
+    }, 100);
+  }
+</script>
+
 </body>
 </html>
